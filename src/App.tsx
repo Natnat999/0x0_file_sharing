@@ -49,14 +49,19 @@ function App() {
     formData.append('file', file)
 
     try {
-      const response = await axios.post('https://0x0.st', formData, {
+      const response = await axios.post('https://file.io', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       })
-      setResultUrl(response.data.trim())
+      
+      if (response.data.success) {
+        setResultUrl(response.data.link)
+      } else {
+        throw new Error(response.data.message || 'Upload failed')
+      }
     } catch (err) {
-      setError('Upload failed. Please try again.')
+      setError('Upload failed. file.io may have a file size limit (usually 2GB).')
       console.error(err)
     } finally {
       setUploading(false)
@@ -72,8 +77,8 @@ function App() {
 
   return (
     <div className="container">
-      <h1>0x0 File Share</h1>
-      <p className="subtitle">Simple, anonymous file hosting</p>
+      <h1>File Share</h1>
+      <p className="subtitle">Simple, anonymous file hosting (powered by file.io)</p>
 
       <div 
         className={`upload-zone ${dragActive ? 'drag-active' : ''} ${file ? 'has-file' : ''}`}
@@ -108,7 +113,7 @@ function App() {
           disabled={!file || uploading}
           className="upload-button"
         >
-          {uploading ? 'Uploading...' : 'Upload to 0x0.st'}
+          {uploading ? 'Uploading...' : 'Upload to file.io'}
         </button>
       </div>
 
@@ -125,8 +130,8 @@ function App() {
       )}
 
       <footer className="footer">
-        <p>Files are hosted on <a href="https://0x0.st" target="_blank" rel="noreferrer">0x0.st</a></p>
-        <p className="note">Please respect the host's terms of service.</p>
+        <p>Files are hosted on <a href="https://file.io" target="_blank" rel="noreferrer">file.io</a></p>
+        <p className="note">Note: file.io deletes files after the first download.</p>
       </footer>
     </div>
   )
