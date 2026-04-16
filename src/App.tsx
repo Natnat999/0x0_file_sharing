@@ -49,11 +49,7 @@ function App() {
     formData.append('file', file)
 
     try {
-      const response = await axios.post('https://pixeldrain.com/api/file', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
+      const response = await axios.post('https://pixeldrain.com/api/file', formData)
       
       if (response.data.success) {
         setResultUrl(`https://pixeldrain.com/u/${response.data.id}`)
