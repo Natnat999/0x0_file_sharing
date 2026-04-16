@@ -1,4 +1,5 @@
-import { useState, useRef, DragEvent } from 'react'
+import { useState, useRef } from 'react'
+import type { DragEvent } from 'react'
 import axios from 'axios'
 import './App.css'
 
