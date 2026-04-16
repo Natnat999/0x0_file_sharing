@@ -49,7 +49,7 @@ function App() {
     formData.append('file', file)
 
     try {
-      const response = await axios.post('https://file.io', formData, {
+      const response = await axios.post('https://file.io/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
