@@ -49,19 +49,19 @@ function App() {
     formData.append('file', file)
 
     try {
-      const response = await axios.post('https://file.io/', formData, {
+      const response = await axios.post('https://pixeldrain.com/api/file', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       })
       
       if (response.data.success) {
-        setResultUrl(response.data.link)
+        setResultUrl(`https://pixeldrain.com/u/${response.data.id}`)
       } else {
         throw new Error(response.data.message || 'Upload failed')
       }
     } catch (err) {
-      setError('Upload failed. file.io may have a file size limit (usually 2GB).')
+      setError('Upload failed. Pixeldrain may have reached its rate limit or the file is too large.')
       console.error(err)
     } finally {
       setUploading(false)
@@ -78,7 +78,7 @@ function App() {
   return (
     <div className="container">
       <h1>File Share</h1>
-      <p className="subtitle">Simple, anonymous file hosting (powered by file.io)</p>
+      <p className="subtitle">Simple, anonymous file hosting (powered by Pixeldrain)</p>
 
       <div 
         className={`upload-zone ${dragActive ? 'drag-active' : ''} ${file ? 'has-file' : ''}`}
@@ -113,7 +113,7 @@ function App() {
           disabled={!file || uploading}
           className="upload-button"
         >
-          {uploading ? 'Uploading...' : 'Upload to file.io'}
+          {uploading ? 'Uploading...' : 'Upload to Pixeldrain'}
         </button>
       </div>
 
@@ -130,8 +130,8 @@ function App() {
       )}
 
       <footer className="footer">
-        <p>Files are hosted on <a href="https://file.io" target="_blank" rel="noreferrer">file.io</a></p>
-        <p className="note">Note: file.io deletes files after the first download.</p>
+        <p>Files are hosted on <a href="https://pixeldrain.com" target="_blank" rel="noreferrer">Pixeldrain</a></p>
+        <p className="note">High-speed anonymous sharing.</p>
       </footer>
     </div>
   )
